@@ -1,0 +1,17 @@
+name: blockcypher
+version: 0.1.0
+description: Minimalistic library for communicating with the Blockcypher API.
+author: Kolibri POS authors <info@kolibripos.com>
+homepage: https://github.com/Kolibri-POS/blockcypher_client
+
+dependencies:
+    uuid: any
+    web_socket_channel: ^1.0.12
+
+dev_dependencies:
+    test: ^1.3.4
+    mock_web_server:
+        path: /home/harm/prj/MockWebServer
+
+environment:
+    sdk: ">=2.1.0 <3.0.0"
