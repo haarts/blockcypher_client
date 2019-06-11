@@ -1,7 +1,8 @@
 import 'package:blockcypher/blockcypher.dart';
 
 void main(List<String> args) async {
-  var client = Client.websocket("wss://socket.blockcypher.com/v1/btc/main", args[0]);
+  var token = args[0];
+  var client = Client.websocket("wss://socket.blockcypher.com/v1/btc/main", token);
 
   /// Very high throughput without the optional address filter!
   Stream<String> txs = await client.unconfirmedTransactions();
