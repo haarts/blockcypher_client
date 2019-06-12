@@ -7,6 +7,6 @@ void main(List<String> args) async {
 
   Stream<String> blocks = await client.newBlocks();
   await for (String block in blocks) {
-    print(block);
+    print("new blocK: $block");
   }
 }
