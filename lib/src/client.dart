@@ -43,10 +43,8 @@ class Client {
   }
 
   Stream<String> _streamFor(Event event) {
-    final channel = IOWebSocketChannel.connect(url, headers: _headers);
+    final channel = IOWebSocketChannel.connect(url, headers: _headers, pingInterval: const Duration(seconds: 10));
     channel.sink.add(event.toJson());
-
-    Timer.periodic(Duration(seconds: 10), (t) => channel.sink.add(_pingMessage));
 
     return channel.cast<String>().stream;    
   }
