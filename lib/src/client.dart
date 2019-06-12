@@ -43,10 +43,11 @@ class Client {
   }
 
   Stream<String> _streamFor(Event event) {
-    final channel = IOWebSocketChannel.connect(url, headers: _headers, pingInterval: const Duration(seconds: 10));
+    final channel = IOWebSocketChannel.connect(url,
+        headers: _headers, pingInterval: const Duration(seconds: 10));
     channel.sink.add(event.toJson());
 
-    return channel.cast<String>().stream;    
+    return channel.cast<String>().stream;
   }
 
   @override
