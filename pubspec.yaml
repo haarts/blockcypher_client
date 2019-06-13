@@ -1,5 +1,5 @@
 name: blockcypher
-version: 0.1.1
+version: 0.1.2
 description: Minimalistic library for communicating with the Blockcypher API.
 author: Kolibri POS authors <info@kolibripos.com>
 homepage: https://github.com/inapay/blockcypher_client

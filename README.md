@@ -26,7 +26,7 @@ Add it to your `pubspec.yaml`:
 
 ```
 dependencies:
-  blockcypher: 0.1.1
+  blockcypher: 0.1.2
 ```
 
 ## Licence overview
