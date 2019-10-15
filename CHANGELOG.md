@@ -1,3 +1,6 @@
+v0.1.3
+* Add tx-confirmation
+ 
 v0.1.2
 * Add missing import
  
