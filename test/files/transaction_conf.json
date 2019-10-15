@@ -1,0 +1,79 @@
+{
+  "block_hash": "0000000000000000001272d9b5d405a12f25af36f8c4c0b42ff05b5b9a10b3f8",
+  "block_height": 599495,
+  "block_index": 304,
+  "hash": "737ead59ffa50566334ca2323195696f0bb32800f604b516792fa210eb6e0733",
+  "addresses": [
+    "35hMGTTnuKgtBU9x5qWyT55XSFTAcEKCKg",
+    "37nJ34QmmMw8xrx7WdkN7agEkvXW7V4wTp",
+    "3PN3smqnkjkKmSGVKDF3Um8mrXmUFDhBAP",
+    "3QtUxm5xL2VJvvZVdiT3TfB6bHGy5HF2K6"
+  ],
+  "total": 2672029,
+  "fees": 17920,
+  "size": 202,
+  "preference": "high",
+  "relayed_by": "5.39.223.21:8333",
+  "confirmed": "2019-10-15T15:07:07Z",
+  "received": "2019-10-15T14:55:04.865Z",
+  "ver": 2,
+  "lock_time": 599494,
+  "double_spend": false,
+  "vin_sz": 2,
+  "vout_sz": 2,
+  "opt_in_rbf": true,
+  "confirmations": 1,
+  "inputs": [
+    {
+      "prev_hash": "fcec29917ceb785a2e761628647c298e708fd30f575c1bd927031e45c47025b6",
+      "output_index": 1,
+      "script": "160014603b84cba8f78eb1da9dc8fb57098f5ada5465a7",
+      "output_value": 1083604,
+      "sequence": 4294967293,
+      "addresses": [
+        "3PN3smqnkjkKmSGVKDF3Um8mrXmUFDhBAP"
+      ],
+      "script_type": "pay-to-script-hash",
+      "age": 599490,
+      "witness": [
+        "3044022076c9f4ab89b6c52dc221b901f508f033ae8cf3195cb060eb374682100c55ae7d02204174cd6dc1a91a86b1117bef87eda57014bb8ed9e839df01040efa368796191901",
+        "03360153c8f69f992175c1a244557866fc06ffe78cae0f935860ed7edf41e67212"
+      ]
+    },
+    {
+      "prev_hash": "c6160b0756e45882eeacb9fb07a4add0d539d5322cbf38183b41f039838b6c5a",
+      "output_index": 1,
+      "script": "1600142b521699fe44de525b1eeb8ffc56e905c6aace6c",
+      "output_value": 1606345,
+      "sequence": 4294967293,
+      "addresses": [
+        "37nJ34QmmMw8xrx7WdkN7agEkvXW7V4wTp"
+      ],
+      "script_type": "pay-to-script-hash",
+      "age": 599492,
+      "witness": [
+        "304402205ff89813acbbb937c136224cd753667434ecb008a8d20088ab8fdcad0ebe1b2d022022b0831d04355785e49f2aab7a27c78967d4677e1d064d16e24854dfdd2f8fb101",
+        "039774d984c5de2bf263c3f049b4cf5a5a531f7cf8d18b511f73ca0994d255fa6b"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "value": 1095024,
+      "script": "a914fe7609fab4394db403d622c69ba05e3bc15ec9d387",
+      "addresses": [
+        "3QtUxm5xL2VJvvZVdiT3TfB6bHGy5HF2K6"
+      ],
+      "script_type": "pay-to-script-hash"
+    },
+    {
+      "value": 1577005,
+      "script": "a9142bf0a66f5325e650e1d2e31e47d133e7ea0260b687",
+      "addresses": [
+        "35hMGTTnuKgtBU9x5qWyT55XSFTAcEKCKg"
+      ],
+      "script_type": "pay-to-script-hash"
+    }
+  ]
+}
+

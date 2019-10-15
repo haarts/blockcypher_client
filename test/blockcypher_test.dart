@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:test/test.dart';
 import 'package:mock_web_server/mock_web_server.dart';
-
-import 'package:web_socket_channel/io.dart';
 
 import 'package:blockcypher/blockcypher.dart';
 
@@ -38,7 +35,7 @@ void main() {
   test("newBlocks()", () async {
     var cannedResponse = await File('test/files/block.json').readAsString();
     server.enqueue(body: cannedResponse);
-    Stream<String> blocks = await client.newBlocks();
+    Stream<String> blocks = client.newBlocks();
     blocks.listen(expectAsync1((message) { }, count: 1));
   });
 
@@ -50,7 +47,7 @@ void main() {
       sink.add(tx2);
     };
 
-    Stream<String> blocks = await client.unconfirmedTransactions();
+    Stream<String> blocks = client.unconfirmedTransactions();
     blocks.listen(expectAsync1((message) { }, count: 2));
   });
 }
