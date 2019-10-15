@@ -29,8 +29,11 @@ void main() {
   });
 
   test("transactionConfirmation()", () async {
-    client.transactionConfirmation("some address");
-  }, skip: "TODO");
+    var cannedResponse = await File('test/files/transaction_conf.json').readAsString();
+    server.enqueue(body: cannedResponse);
+    Stream<String> tx = client.transactionConfirmation('some-txhash');
+    tx.listen(expectAsync1((message) {}, count: 1));
+  });
 
   test("newBlocks()", () async {
     var cannedResponse = await File('test/files/block.json').readAsString();

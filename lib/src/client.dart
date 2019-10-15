@@ -25,9 +25,9 @@ class Client {
 
   Client.websocket(String url, this.token) : url = Uri.parse(url);
 
-  /// Returns a [Stream] of ...? FIXME
-  Stream<String> transactionConfirmation(String address) {
-    return _streamFor(TransactionConfirmation(token, address));
+  /// Returns a [Stream] of transactions each time a confirmation is created.
+  Stream<String> transactionConfirmation(String txHash) {
+    return _streamFor(TransactionConfirmation(token, txHash));
   }
 
   /// Returns a [Stream] of blocks are they get published on the network
@@ -86,16 +86,16 @@ class UnconfirmedTransactions extends Event {
 }
 
 class TransactionConfirmation extends Event {
-  final String address;
+  final String txHash;
 
-  TransactionConfirmation(String token, this.address)
+  TransactionConfirmation(String token, this.txHash)
       : super(token, "tx-confirmation");
 
   String toJson() {
     return json.encode({
       "id": _uuid,
       "event": _event,
-      "address": address,
+      "hash": txHash,
       "token": _token,
     });
   }
