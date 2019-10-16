@@ -1,3 +1,6 @@
+v0.1.4
+* Add blockchain call
+
 v0.1.3
 * Add tx-confirmation
  

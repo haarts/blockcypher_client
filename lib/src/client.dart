@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,6 +26,12 @@ class Client {
 
   Client.websocket(String url, this.token) : url = Uri.parse(url);
 
+  Client.http(String url, this.token) : url = Uri.parse(url);
+
+  Future<String> blockchain() {
+    return _futureFor(Blockchain(token));
+  }
+
   /// Returns a [Stream] of transactions each time a confirmation is created.
   Stream<String> transactionConfirmation(String txHash) {
     return _streamFor(TransactionConfirmation(token, txHash));
@@ -42,6 +49,13 @@ class Client {
     return _streamFor(UnconfirmedTransactions(token, address));
   }
 
+  Future<String> _futureFor(Request request) async {
+    var client = http.Client();
+    var streamedResponse = await client.send(request.toRequest(url));
+    client.close();
+		return streamedResponse.stream.bytesToString();
+  }
+
   Stream<String> _streamFor(Event event) {
     final channel = IOWebSocketChannel.connect(url,
         headers: _headers, pingInterval: const Duration(seconds: 10));
@@ -52,6 +66,24 @@ class Client {
 
   @override
   String toString() => "Client(url: $url)";
+}
+
+abstract class Request {
+  final String _token;
+	final String _path;
+  Request(this._token, this._path);
+
+  http.Request toRequest(Uri baseUrl);
+}
+
+class Blockchain extends Request {
+  Blockchain(String token) : super(token, "/");
+
+  // NOTE: GET requests don't need tokens
+  @override
+  http.Request toRequest(Uri baseUrl) {
+    return http.Request("GET", baseUrl.replace(path: _path));
+  }
 }
 
 abstract class Event {
