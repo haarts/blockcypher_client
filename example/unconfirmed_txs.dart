@@ -6,7 +6,8 @@ void main(List<String> args) async {
       Client(token, websocketUrl: "wss://socket.blockcypher.com/v1/btc/test3");
 
   /// Very high throughput without the optional address filter!
-  Stream<String> txs = client.unconfirmedTransactions("mv4rnyY3Su5gjcDNzbMLKBQkBicCtHUtFB");
+  Stream<String> txs =
+      client.unconfirmedTransactions("mv4rnyY3Su5gjcDNzbMLKBQkBicCtHUtFB");
   await for (String tx in txs) {
     print(tx);
   }

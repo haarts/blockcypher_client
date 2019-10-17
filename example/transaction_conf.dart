@@ -5,8 +5,8 @@ void main(List<String> args) async {
   var client =
       Client(token, websocketUrl: "wss://socket.blockcypher.com/v1/btc/main");
 
-  Stream<String> confs = await client
-      .transactionConfirmation("737ead59ffa50566334ca2323195696f0bb32800f604b516792fa210eb6e0733");
+  Stream<String> confs = await client.transactionConfirmation(
+      "737ead59ffa50566334ca2323195696f0bb32800f604b516792fa210eb6e0733");
   await for (String conf in confs) {
     print(conf);
   }

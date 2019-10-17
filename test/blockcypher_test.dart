@@ -14,8 +14,11 @@ void main() {
   setUp(() async {
     server = MockWebServer();
     await server.start();
-    client =
-        Client("some-token", httpUrl: server.url, websocketUrl: "ws://${server.host}:${server.port}/ws",);
+    client = Client(
+      "some-token",
+      httpUrl: server.url,
+      websocketUrl: "ws://${server.host}:${server.port}/ws",
+    );
   });
 
   tearDown(() async {
