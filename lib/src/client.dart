@@ -11,9 +11,6 @@ class Client {
   static const String _userAgent = 'Blockcypher - Dart';
   static const String _mediaType = 'application/json';
 
-  /// Used to keep the connection alive
-  static const String _pingMessage = '{"event": "ping"}';
-
   static const _headers = {
     HttpHeaders.userAgentHeader: _userAgent,
   };
