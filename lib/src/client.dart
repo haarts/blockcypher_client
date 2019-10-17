@@ -15,15 +15,18 @@ class Client {
     HttpHeaders.userAgentHeader: _userAgent,
   };
 
-  /// The URL of the Blockcypher server.
-  final Uri url;
+  /// The websocket URL of the Blockcypher server.
+  final Uri websocketUrl;
+
+  /// The http URL of the Blockcypher server.
+  final Uri httpUrl;
 
   /// The API token
   final String token;
 
-  Client.websocket(String url, this.token) : url = Uri.parse(url);
-
-  Client.http(String url, this.token) : url = Uri.parse(url);
+  Client(this.token, {String httpUrl = "", String websocketUrl = ""})
+      : httpUrl = Uri.parse(httpUrl),
+        websocketUrl = Uri.parse(websocketUrl);
 
   Future<String> blockchain() {
     return _futureFor(Blockchain(token));
@@ -48,13 +51,13 @@ class Client {
 
   Future<String> _futureFor(Request request) async {
     var client = http.Client();
-    var streamedResponse = await client.send(request.toRequest(url));
+    var streamedResponse = await client.send(request.toRequest(httpUrl));
     client.close();
     return streamedResponse.stream.bytesToString();
   }
 
   Stream<String> _streamFor(Event event) {
-    final channel = IOWebSocketChannel.connect(url,
+    final channel = IOWebSocketChannel.connect(websocketUrl,
         headers: _headers, pingInterval: const Duration(seconds: 10));
     channel.sink.add(event.toJson());
 
@@ -62,7 +65,7 @@ class Client {
   }
 
   @override
-  String toString() => "Client(url: $url)";
+  String toString() => "Client(urls: $httpUrl/$websocketUrl)";
 }
 
 abstract class Request {

@@ -8,16 +8,14 @@ import 'package:mock_web_server/mock_web_server.dart';
 import 'package:blockcypher/blockcypher.dart';
 
 MockWebServer server;
-Client wsClient;
-Client httpClient;
+Client client;
 
 void main() {
   setUp(() async {
     server = MockWebServer();
     await server.start();
-    wsClient =
-        Client.websocket("ws://${server.host}:${server.port}/ws", "token");
-    httpClient = Client.http(server.url, "token");
+    client =
+        Client("some-token", httpUrl: server.url, websocketUrl: "ws://${server.host}:${server.port}/ws",);
   });
 
   tearDown(() async {
@@ -25,15 +23,16 @@ void main() {
   });
 
   test("initialize", () {
-    expect(wsClient, isNotNull);
-    expect(wsClient.url.host, "127.0.0.1");
+    expect(client, isNotNull);
+    expect(client.httpUrl.host, "127.0.0.1");
+    expect(client.websocketUrl.host, "127.0.0.1");
   });
 
   test("blockchain()", () async {
     var cannedResponse =
         await File('test/files/blockchain.json').readAsString();
     server.enqueue(body: cannedResponse);
-    String blockchain = await httpClient.blockchain();
+    String blockchain = await client.blockchain();
     expect(json.decode(blockchain)['name'], 'BTC.main');
   });
 
@@ -41,14 +40,14 @@ void main() {
     var cannedResponse =
         await File('test/files/transaction_conf.json').readAsString();
     server.enqueue(body: cannedResponse);
-    Stream<String> tx = wsClient.transactionConfirmation('some-txhash');
+    Stream<String> tx = client.transactionConfirmation('some-txhash');
     tx.listen(expectAsync1((message) {}, count: 1));
   });
 
   test("newBlocks()", () async {
     var cannedResponse = await File('test/files/block.json').readAsString();
     server.enqueue(body: cannedResponse);
-    Stream<String> blocks = wsClient.newBlocks();
+    Stream<String> blocks = client.newBlocks();
     blocks.listen(expectAsync1((message) {}, count: 1));
   });
 
@@ -60,7 +59,7 @@ void main() {
       sink.add(tx2);
     };
 
-    Stream<String> blocks = wsClient.unconfirmedTransactions();
+    Stream<String> blocks = client.unconfirmedTransactions();
     blocks.listen(expectAsync1((message) {}, count: 2));
   });
 }
