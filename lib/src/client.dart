@@ -74,12 +74,13 @@ abstract class Request {
 }
 
 class Blockchain extends Request {
-  Blockchain(String token) : super(token, "/");
+  static const path = "";
+  Blockchain(String token) : super(token, path);
 
   // NOTE: GET requests don't need tokens
   @override
   http.Request toRequest(Uri baseUrl) {
-    return http.Request("GET", baseUrl.replace(path: _path));
+    return http.Request("GET", baseUrl.replace(path: baseUrl.path + _path));
   }
 }
 
