@@ -50,7 +50,7 @@ class Client {
     var client = http.Client();
     var streamedResponse = await client.send(request.toRequest(url));
     client.close();
-		return streamedResponse.stream.bytesToString();
+    return streamedResponse.stream.bytesToString();
   }
 
   Stream<String> _streamFor(Event event) {
@@ -67,7 +67,7 @@ class Client {
 
 abstract class Request {
   final String _token;
-	final String _path;
+  final String _path;
   Request(this._token, this._path);
 
   http.Request toRequest(Uri baseUrl);

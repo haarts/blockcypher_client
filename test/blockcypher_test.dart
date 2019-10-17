@@ -15,7 +15,8 @@ void main() {
   setUp(() async {
     server = MockWebServer();
     await server.start();
-    wsClient = Client.websocket("ws://${server.host}:${server.port}/ws", "token");
+    wsClient =
+        Client.websocket("ws://${server.host}:${server.port}/ws", "token");
     httpClient = Client.http(server.url, "token");
   });
 
@@ -29,14 +30,16 @@ void main() {
   });
 
   test("blockchain()", () async {
-    var cannedResponse = await File('test/files/blockchain.json').readAsString();
-		server.enqueue(body: cannedResponse);
-		String blockchain = await httpClient.blockchain();
-		expect(json.decode(blockchain)['name'], 'BTC.main');
+    var cannedResponse =
+        await File('test/files/blockchain.json').readAsString();
+    server.enqueue(body: cannedResponse);
+    String blockchain = await httpClient.blockchain();
+    expect(json.decode(blockchain)['name'], 'BTC.main');
   });
 
   test("transactionConfirmation()", () async {
-    var cannedResponse = await File('test/files/transaction_conf.json').readAsString();
+    var cannedResponse =
+        await File('test/files/transaction_conf.json').readAsString();
     server.enqueue(body: cannedResponse);
     Stream<String> tx = wsClient.transactionConfirmation('some-txhash');
     tx.listen(expectAsync1((message) {}, count: 1));
@@ -46,7 +49,7 @@ void main() {
     var cannedResponse = await File('test/files/block.json').readAsString();
     server.enqueue(body: cannedResponse);
     Stream<String> blocks = wsClient.newBlocks();
-    blocks.listen(expectAsync1((message) { }, count: 1));
+    blocks.listen(expectAsync1((message) {}, count: 1));
   });
 
   test("unconfirmedTransactions()", () async {
@@ -58,6 +61,6 @@ void main() {
     };
 
     Stream<String> blocks = wsClient.unconfirmedTransactions();
-    blocks.listen(expectAsync1((message) { }, count: 2));
+    blocks.listen(expectAsync1((message) {}, count: 2));
   });
 }
