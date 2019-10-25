@@ -1,6 +1,7 @@
 # Blockcypher library
 
 [![pub package](https://img.shields.io/pub/v/blockcypher.svg)](https://pub.dartlang.org/packages/blockcypher)
+[![CircleCI](https://circleci.com/gh/inapay/blockcypher_client.svg?style=svg)](https://circleci.com/gh/inapay/blockcypher_client)
 
 A library for communicating with the [Blockcypher API]. Only some websocket calls are implemented.
 
