@@ -39,6 +39,14 @@ void main() {
     expect(json.decode(blockchain)['name'], 'BTC.main');
   });
 
+  test("transaction()", () async {
+    var cannedResponse =
+        await File('test/files/transaction.json').readAsString();
+    server.enqueue(body: cannedResponse);
+    String transaction = await client.transaction('some-txhash');
+    expect(json.decode(transaction)['block_height'], 600959);
+  });
+
   test("transactionConfirmation()", () async {
     var cannedResponse =
         await File('test/files/transaction_conf.json').readAsString();
