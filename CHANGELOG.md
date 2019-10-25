@@ -1,3 +1,7 @@
+v0.2.1
+* Add tx endpoint
+
+
 v0.2.0
 * Change constructor interface, there's now only one constructor with the signature `Client(token, httpUrl: "", websocketUrl: "")`.
 * Add blockchain example
