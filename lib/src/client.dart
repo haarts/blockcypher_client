@@ -32,6 +32,10 @@ class Client {
     return _futureFor(Blockchain(token));
   }
 
+  Future<String> transaction(String txid) {
+    return _futureFor(Transaction(txid, token));
+  }
+
   /// Returns a [Stream] of transactions each time a confirmation is created.
   Stream<String> transactionConfirmation(String txHash) {
     return _streamFor(TransactionConfirmation(token, txHash));
@@ -73,18 +77,27 @@ abstract class Request {
   final String _path;
   Request(this._token, this._path);
 
-  http.Request toRequest(Uri baseUrl);
+  // NOTE: GET requests don't need tokens
+  http.Request toRequest(Uri baseUrl) {
+    return http.Request(
+        "GET", baseUrl.replace(path: baseUrl.path + _path + urlSuffix));
+  }
+
+  String urlSuffix = "";
 }
 
 class Blockchain extends Request {
   static const path = "";
   Blockchain(String token) : super(token, path);
+}
 
-  // NOTE: GET requests don't need tokens
+class Transaction extends Request {
+  static const path = "/txs/";
+  final String txid;
+  Transaction(this.txid, String token) : super(token, path);
+
   @override
-  http.Request toRequest(Uri baseUrl) {
-    return http.Request("GET", baseUrl.replace(path: baseUrl.path + _path));
-  }
+  String get urlSuffix => txid;
 }
 
 abstract class Event {
