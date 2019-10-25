@@ -5,7 +5,7 @@ void main(List<String> args) async {
   var client =
       Client(token, websocketUrl: "wss://socket.blockcypher.com/v1/btc/main");
 
-  Stream<String> blocks = await client.newBlocks();
+  Stream<String> blocks = client.newBlocks();
   await for (String block in blocks) {
     print("new blocK: $block");
   }
