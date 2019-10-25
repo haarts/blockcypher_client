@@ -9,7 +9,8 @@ import 'package:uuid/uuid.dart';
 class Client {
   /// Used to send an appropriate User-Agent header with the HTTP requests
   static const String _userAgent = 'Blockcypher - Dart';
-  static const String _mediaType = 'application/json';
+  // TODO set mediaType header
+  // static const String _mediaType = 'application/json';
 
   static const _headers = {
     HttpHeaders.userAgentHeader: _userAgent,
