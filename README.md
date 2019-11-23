@@ -19,7 +19,7 @@ Listen for all new blocks:
   }
 ```
 
-For more examples see the [examples](examples) directory.
+For more examples see the [example](example) directory.
 
 ## Installing
 
