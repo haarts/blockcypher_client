@@ -10,7 +10,8 @@ class Client {
   /// Used to send an appropriate User-Agent header with the HTTP requests
   static const String _userAgent = 'Blockcypher - Dart';
   // TODO set mediaType header
-  // static const String _mediaType = 'application/json';
+  //ignore: unused_field
+  static const String _mediaType = 'application/json';
 
   static const _headers = {
     HttpHeaders.userAgentHeader: _userAgent,
@@ -25,7 +26,7 @@ class Client {
   /// The API token
   final String token;
 
-  Client(this.token, {String httpUrl = "", String websocketUrl = ""})
+  Client(this.token, {String httpUrl = '', String websocketUrl = ''})
       : httpUrl = Uri.parse(httpUrl),
         websocketUrl = Uri.parse(websocketUrl);
 
@@ -64,16 +65,18 @@ class Client {
   Stream<String> _streamFor(Event event) {
     final channel = IOWebSocketChannel.connect(websocketUrl,
         headers: _headers, pingInterval: const Duration(seconds: 10));
-    channel.sink.add(event.toJson());
+    channel.sink.add(json.encode(event));
 
     return channel.cast<String>().stream;
   }
 
   @override
-  String toString() => "Client(urls: $httpUrl/$websocketUrl)";
+  String toString() => 'Client(urls: $httpUrl/$websocketUrl)';
 }
 
 abstract class Request {
+  // TODO: deal with token
+  // ignore: unused_field
   final String _token;
   final String _path;
   Request(this._token, this._path);
@@ -81,24 +84,29 @@ abstract class Request {
   // NOTE: GET requests don't need tokens
   http.Request toRequest(Uri baseUrl) {
     return http.Request(
-        "GET", baseUrl.replace(path: baseUrl.path + _path + urlSuffix));
+        'GET', baseUrl.replace(path: baseUrl.path + _path + urlSuffix));
   }
 
-  String urlSuffix = "";
+  String urlSuffix = '';
 }
 
 class Blockchain extends Request {
-  static const path = "";
+  static const path = '';
   Blockchain(String token) : super(token, path);
 }
 
 class Transaction extends Request {
-  static const path = "/txs/";
+  static const path = '/txs/';
   final String txid;
   Transaction(this.txid, String token) : super(token, path);
 
   @override
   String get urlSuffix => txid;
+
+  @override
+  http.Request toRequest(Uri baseUrl) {
+    return http.Request('GET', baseUrl.replace(path: baseUrl.path + _path));
+  }
 }
 
 abstract class Event {
@@ -108,27 +116,28 @@ abstract class Event {
 
   Event(this._token, this._event) : _uuid = Uuid().v4();
 
-  String toJson();
+  Map<String, dynamic> toJson();
 }
 
 class UnconfirmedTransactions extends Event {
   final String address;
 
   UnconfirmedTransactions(String token, [this.address])
-      : super(token, "unconfirmed-tx");
+      : super(token, 'unconfirmed-tx');
 
-  String toJson() {
-    Map<String, dynamic> payload = {
-      "id": _uuid,
-      "event": _event,
-      "token": _token,
+  @override
+  Map<String, dynamic> toJson() {
+    var payload = {
+      'id': _uuid,
+      'event': _event,
+      'token': _token,
     };
 
     if (address != null) {
-      payload["address"] = address;
+      payload['address'] = address;
     }
 
-    return json.encode(payload);
+    return payload;
   }
 }
 
@@ -136,26 +145,28 @@ class TransactionConfirmation extends Event {
   final String txHash;
 
   TransactionConfirmation(String token, this.txHash)
-      : super(token, "tx-confirmation");
+      : super(token, 'tx-confirmation');
 
-  String toJson() {
-    return json.encode({
-      "id": _uuid,
-      "event": _event,
-      "hash": txHash,
-      "token": _token,
-    });
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': _uuid,
+      'event': _event,
+      'hash': txHash,
+      'token': _token,
+    };
   }
 }
 
 class NewBlocks extends Event {
-  NewBlocks(String token) : super(token, "new-block");
+  NewBlocks(String token) : super(token, 'new-block');
 
-  String toJson() {
-    return json.encode({
-      "id": _uuid,
-      "event": _event,
-      "token": _token,
-    });
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': _uuid,
+      'event': _event,
+      'token': _token,
+    };
   }
 }

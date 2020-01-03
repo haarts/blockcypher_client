@@ -1,2 +1,2 @@
-export "src/client.dart";
-export "src/exceptions.dart";
+export 'src/client.dart';
+export 'src/exceptions.dart';
