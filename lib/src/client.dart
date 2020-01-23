@@ -25,7 +25,7 @@ class Client {
   /// The API token
   final String token;
 
-  Client(this.token, {String httpUrl = "", String websocketUrl = ""})
+  Client({String httpUrl = '', String websocketUrl = '', this.token})
       : httpUrl = Uri.parse(httpUrl),
         websocketUrl = Uri.parse(websocketUrl);
 
@@ -109,6 +109,19 @@ abstract class Event {
   Event(this._token, this._event) : _uuid = Uuid().v4();
 
   String toJson();
+
+  Map<String, dynamic> boilerplate() {
+    var payload = {
+      'event': _event,
+      'id': _uuid,
+    };
+
+    if (_token != null) {
+      payload['token'] = _token;
+    }
+
+    return payload;
+  }
 }
 
 class UnconfirmedTransactions extends Event {
@@ -118,11 +131,7 @@ class UnconfirmedTransactions extends Event {
       : super(token, "unconfirmed-tx");
 
   String toJson() {
-    Map<String, dynamic> payload = {
-      "id": _uuid,
-      "event": _event,
-      "token": _token,
-    };
+    var payload = boilerplate();
 
     if (address != null) {
       payload["address"] = address;
@@ -139,12 +148,7 @@ class TransactionConfirmation extends Event {
       : super(token, "tx-confirmation");
 
   String toJson() {
-    return json.encode({
-      "id": _uuid,
-      "event": _event,
-      "hash": txHash,
-      "token": _token,
-    });
+    return json.encode(boilerplate()..['hash'] = txHash);
   }
 }
 
@@ -152,10 +156,6 @@ class NewBlocks extends Event {
   NewBlocks(String token) : super(token, "new-block");
 
   String toJson() {
-    return json.encode({
-      "id": _uuid,
-      "event": _event,
-      "token": _token,
-    });
+    return json.encode(boilerplate());
   }
 }
