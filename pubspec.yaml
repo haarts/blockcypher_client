@@ -1,5 +1,5 @@
 name: blockcypher
-version: 0.2.1
+version: 0.3.0
 description: Minimalistic library for communicating with the Blockcypher API.
 homepage: https://github.com/inapay/blockcypher_client
 
