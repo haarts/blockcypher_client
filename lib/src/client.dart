@@ -70,7 +70,7 @@ class Client {
   }
 
   @override
-  String toString() => "Client(urls: $httpUrl/$websocketUrl)";
+  String toString() => 'Client(urls: $httpUrl/$websocketUrl)';
 }
 
 abstract class Request {
@@ -81,19 +81,19 @@ abstract class Request {
   // NOTE: GET requests don't need tokens
   http.Request toRequest(Uri baseUrl) {
     return http.Request(
-        "GET", baseUrl.replace(path: baseUrl.path + _path + urlSuffix));
+        'GET', baseUrl.replace(path: baseUrl.path + _path + urlSuffix));
   }
 
-  String urlSuffix = "";
+  String urlSuffix = '';
 }
 
 class Blockchain extends Request {
-  static const path = "";
+  static const path = '';
   Blockchain(String token) : super(token, path);
 }
 
 class Transaction extends Request {
-  static const path = "/txs/";
+  static const path = '/txs/';
   final String txid;
   Transaction(this.txid, String token) : super(token, path);
 
@@ -128,13 +128,14 @@ class UnconfirmedTransactions extends Event {
   final String address;
 
   UnconfirmedTransactions(String token, [this.address])
-      : super(token, "unconfirmed-tx");
+      : super(token, 'unconfirmed-tx');
 
+  @override
   String toJson() {
     var payload = boilerplate();
 
     if (address != null) {
-      payload["address"] = address;
+      payload['address'] = address;
     }
 
     return json.encode(payload);
@@ -145,16 +146,18 @@ class TransactionConfirmation extends Event {
   final String txHash;
 
   TransactionConfirmation(String token, this.txHash)
-      : super(token, "tx-confirmation");
+      : super(token, 'tx-confirmation');
 
+  @override
   String toJson() {
     return json.encode(boilerplate()..['hash'] = txHash);
   }
 }
 
 class NewBlocks extends Event {
-  NewBlocks(String token) : super(token, "new-block");
+  NewBlocks(String token) : super(token, 'new-block');
 
+  @override
   String toJson() {
     return json.encode(boilerplate());
   }
