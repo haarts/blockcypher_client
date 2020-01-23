@@ -73,12 +73,4 @@ void main() {
     Stream<String> blocks = client.unconfirmedTransactions();
     blocks.listen(expectAsync1((message) {}, count: 2));
   });
-
-  test('optional token', () async {
-    var cannedResponse = File('test/files/block.json').readAsStringSync();
-    server.enqueue(body: cannedResponse);
-    client.newBlocks().listen(expectAsync1((_) {
-      expect(server.takeRequest().body, 'bla');
-    }));
-  });
 }
