@@ -74,6 +74,8 @@ class Client {
 }
 
 abstract class Request {
+  //TODO: deal with token
+  // ignore: unused_field
   final String _token;
   final String _path;
   Request(this._token, this._path);

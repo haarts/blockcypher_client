@@ -5,6 +5,7 @@ class UnsupportedCurrency implements Exception {
   String providedCurrency;
   List<String> supportedCurrencies;
 
+  @override
   String toString() =>
       "'$providedCurrency' is not a valid currency: $supportedCurrencies";
 }
@@ -13,6 +14,7 @@ class InvalidIban implements Exception {
   InvalidIban(this.iban);
   String iban;
 
+  @override
   String toString() => "'$iban' is not a valid IBAN";
 }
 
@@ -22,6 +24,7 @@ class FailedHttpRequest implements Exception {
   String requestBody;
   http.Response response;
 
+  @override
   String toString() {
     return '''
     	Request URL: $requestUrl,
