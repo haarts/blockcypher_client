@@ -7,6 +7,10 @@ import 'package:web_socket_channel/io.dart';
 import 'package:uuid/uuid.dart';
 
 class Client {
+  Client({String httpUrl = '', String websocketUrl = '', this.token})
+      : httpUrl = Uri.parse(httpUrl),
+        websocketUrl = Uri.parse(websocketUrl);
+
   /// Used to send an appropriate User-Agent header with the HTTP requests
   static const String _userAgent = 'Blockcypher - Dart';
   // TODO set mediaType header
@@ -24,10 +28,6 @@ class Client {
 
   /// The API token
   final String token;
-
-  Client({String httpUrl = '', String websocketUrl = '', this.token})
-      : httpUrl = Uri.parse(httpUrl),
-        websocketUrl = Uri.parse(websocketUrl);
 
   Future<String> blockchain() {
     return _futureFor(Blockchain(token));
@@ -75,10 +75,10 @@ class Client {
 
 abstract class Request {
   //TODO: deal with token
+  Request(this._token, this._path);
   // ignore: unused_field
   final String _token;
   final String _path;
-  Request(this._token, this._path);
 
   // NOTE: GET requests don't need tokens
   http.Request toRequest(Uri baseUrl) {
@@ -90,25 +90,25 @@ abstract class Request {
 }
 
 class Blockchain extends Request {
-  static const path = '';
   Blockchain(String token) : super(token, path);
+  static const path = '';
 }
 
 class Transaction extends Request {
+  Transaction(this.txid, String token) : super(token, path);
   static const path = '/txs/';
   final String txid;
-  Transaction(this.txid, String token) : super(token, path);
 
   @override
   String get urlSuffix => txid;
 }
 
 abstract class Event {
+  Event(this._token, this._event) : _uuid = Uuid().v4();
+
   final String _uuid;
   final String _token;
   final String _event;
-
-  Event(this._token, this._event) : _uuid = Uuid().v4();
 
   String toJson();
 
@@ -127,10 +127,10 @@ abstract class Event {
 }
 
 class UnconfirmedTransactions extends Event {
-  final String address;
-
   UnconfirmedTransactions(String token, [this.address])
       : super(token, 'unconfirmed-tx');
+
+  final String address;
 
   @override
   String toJson() {
@@ -145,10 +145,10 @@ class UnconfirmedTransactions extends Event {
 }
 
 class TransactionConfirmation extends Event {
-  final String txHash;
-
   TransactionConfirmation(String token, this.txHash)
       : super(token, 'tx-confirmation');
+
+  final String txHash;
 
   @override
   String toJson() {

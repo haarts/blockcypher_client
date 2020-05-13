@@ -1,6 +1,8 @@
 import 'package:blockcypher/blockcypher.dart';
 
-void main(List<String> args) async {
+//ignore_for_file: avoid_print
+
+Future<void> main(List<String> args) async {
   var token = args[0];
   var client = Client(
       token: token, websocketUrl: 'wss://socket.blockcypher.com/v1/btc/main');
