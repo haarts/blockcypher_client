@@ -1,7 +1,8 @@
 name: blockcypher
 version: 0.3.0
 description: Minimalistic library for communicating with the Blockcypher API.
-homepage: https://github.com/inapay/blockcypher_client
+author: Harm Aarts <harm@aarts.email>
+homepage: https://github.com/haarts/blockcypher_client
 
 dependencies:
     uuid: ^2.0.4
